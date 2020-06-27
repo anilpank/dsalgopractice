@@ -8,7 +8,8 @@ public class HashTable<A, B> {
 	
 	public static void main(String [] args) {
 		System.out.println("implementing hashtable");
-		HashTable table = new HashTable<String, String>();
+		
+		HashTable<String, String>table = new HashTable<>();
 		table.put("ashi", "Ashi Verma");
 		table.put("maahi", "Maahi Verma");
 		table.put("anil",  "Anil Verma");
@@ -18,12 +19,14 @@ public class HashTable<A, B> {
         System.out.println("anil->" + table.get("anil"));
         System.out.println("anupam->" + table.get("anupam"));	
         System.out.println("raqndom->" + table.get("jhgeee")); 
+		
 
-        HashTable table = new HashTable<Integer, String>();
-		table.put("ashi", "Ashi Verma");
-		table.put("maahi", "Maahi Verma");
-		table.put("anil",  "Anil Verma");
-		table.put("anupam", "Anupam Kaushal");		
+        HashTable<Integer, String> table2 = new HashTable<>();
+		table2.put(3, "Ashi Verma");
+		table2.put(5, "Maahi Verma");
+		table2.put(7,  "Anil Verma");
+		table2.put(9, "Anupam Kaushal");	
+        System.out.println(table2.get(7));		
 	}
 	
 	public B get(A key) {
@@ -36,9 +39,9 @@ public class HashTable<A, B> {
 			return null;
         }
 		
-        for (Pair item : itemList) {			 
+        for (Pair<A,B>item : itemList) {			 
             if (key.equals(item.getKey())) {
-				return (B)item.getValue();
+				return item.getValue();
 			}			
         }
         return null;		
@@ -54,7 +57,7 @@ public class HashTable<A, B> {
 			itemList = new ArrayList<>();
 			arr[index] = itemList;
 		}
-		Pair pair = new Pair(key, value);
+		Pair<A, B> pair = new Pair(key, value);
 		itemList.add(pair);        		
 	}
 	

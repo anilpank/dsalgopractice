@@ -2,6 +2,8 @@ package com.algo.arrayPatch;
 import java.util.*;
 
 public class PatchingArray {
+	
+	private Map<Integer, List<Integer>> sumsetSumMap; 
 	public static void main(String[] args) throws InterruptedException {
 		int[] nums = {1,5, 10};
 		int n = 20;
@@ -13,7 +15,8 @@ public class PatchingArray {
 		// add smallest missing number between 1..n
 		// repeat
 		int counter = 0;
-		while (true) {					
+		while (true) {
+			sumsetSumMap = new HashMap<>();
 			List<Integer> sumList = findAllSubsetSums(nums, nums.size());
 			Collections.sort(sumList);
 			System.out.println("sumList->" + sumList);
@@ -51,6 +54,7 @@ public class PatchingArray {
 	}
 
 	public List<List<Integer>> findAllSubsets(List<Integer> nums, int n) {
+		
 		if (n==0) {
 			List<List<Integer>> list = new ArrayList<>();
 			list.add(new ArrayList<>());
@@ -83,14 +87,20 @@ public class PatchingArray {
 	}
 	
 	public List<Integer> findAllSubsetSums(List<Integer> nums, int n) {
+		if (sumsetSumMap.get(n) != null) {
+			return sumsetSumMap.get(n);
+		}
+		
 		if (n==0) {
 			List<Integer> list = new ArrayList<>();
 			list.add(0);
+			sumsetSumMap.put(n, list);
 			return list;
 		}
 		
 		else {
-			List<Integer> list = findAllSubsetSums(nums, n-1);			
+			List<Integer> list = findAllSubsetSums(nums, n-1);
+			sumsetSumMap.put(n-1, list);
 			List<Integer> resultList = new ArrayList<>();
 			for (Integer item : list) {				
 				resultList.add(item);
@@ -101,6 +111,7 @@ public class PatchingArray {
 				listWithAddedNum.add(resultItem+num);
 			}
 			resultList.addAll(listWithAddedNum);
+			sumsetSumMap.put(n, resultList);
 			return resultList;
 		}
 	}

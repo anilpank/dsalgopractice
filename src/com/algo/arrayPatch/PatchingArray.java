@@ -3,8 +3,8 @@ import java.util.*;
 
 public class PatchingArray {
 	public static void main(String[] args) throws InterruptedException {
-		int[] nums = {1,2, 31, 33};
-		int n = 10000;
+		int[] nums = {1,5, 10};
+		int n = 20;
 		System.out.println(new PatchingArray().minPatches(nums, n));
 	}
 
@@ -13,19 +13,10 @@ public class PatchingArray {
 		// add smallest missing number between 1..n
 		// repeat
 		int counter = 0;
-		while (true) {
-			List<List<Integer>> list = findAllSubsets(nums, nums.size());		
-			List<Integer> sumList = new ArrayList<>();
-			for (List<Integer> numList : list) {
-				int sum = 0;
-				for (Integer data : numList) {
-					sum = sum+data;
-				}
-				sumList.add(sum);
-			}
+		while (true) {					
+			List<Integer> sumList = findAllSubsetSums(nums, nums.size());
 			Collections.sort(sumList);
 			System.out.println("sumList->" + sumList);
-
 			int missingNum = 0;
 			for (int i=0; i<sumList.size()-1; i++) {
 				if (sumList.get(i)>n) {
@@ -85,6 +76,29 @@ public class PatchingArray {
 				}
 				mySubList.add(num);
 				listWithAddedNum.add(mySubList);
+			}
+			resultList.addAll(listWithAddedNum);
+			return resultList;
+		}
+	}
+	
+	public List<Integer> findAllSubsetSums(List<Integer> nums, int n) {
+		if (n==0) {
+			List<Integer> list = new ArrayList<>();
+			list.add(0);
+			return list;
+		}
+		
+		else {
+			List<Integer> list = findAllSubsetSums(nums, n-1);			
+			List<Integer> resultList = new ArrayList<>();
+			for (Integer item : list) {				
+				resultList.add(item);
+			}
+			int num = nums.get(n-1);
+			List<Integer>listWithAddedNum = new ArrayList<>();
+			for (Integer resultItem : resultList) {			
+				listWithAddedNum.add(resultItem+num);
 			}
 			resultList.addAll(listWithAddedNum);
 			return resultList;
